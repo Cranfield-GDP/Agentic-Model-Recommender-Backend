@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END
 
 
@@ -11,10 +10,8 @@ from agent.nodes import (deployment_confirmation_agent_node,
 from agent.schema.schema import Agents, GraphState, VariableStore
 
 
-load_dotenv()
 
-
-from memory import (get_saved_variables,
+from agent.memory import (get_saved_variables,
                     memory_store)
 
 
@@ -25,7 +22,7 @@ graph.add_node(Agents.RequirementAnalysisAgent.value, requirement_analyis_agent_
 graph.add_node(Agents.RequirementClarificationAgent.value, requirement_clarification_agent_node)
 graph.add_node(Agents.DeploymentConfirmationAgent.value, deployment_confirmation_agent_node)
 graph.add_node(Agents.HuggingFaceModelAgent.value, hugging_face_model_search_agent_node)
-graph.add_node(Agents.UserConfirmationReviewer.name, user_confirmation_reviewer_node)
+graph.add_node(Agents.UserConfirmationReviewer.value, user_confirmation_reviewer_node)
 
 def router(state: GraphState):
     """Routes between agents based on agent1 decision"""
@@ -35,10 +32,10 @@ def router(state: GraphState):
     )
     if saved_variables[VariableStore.SELECTED_MODEL.name]:
         return Agents.UserConfirmationReviewer.value
-    if saved_variables[VariableStore.MODEL_CATEGORY.name]:
-        return Agents.DeploymentConfirmationAgent.value
     if saved_variables[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:
-            return Agents.HuggingFaceModelAgent.value
+        return Agents.HuggingFaceModelAgent.value
+    if not saved_variables[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:
+        return Agents.RequirementClarificationAgent.value
     return END
         
 

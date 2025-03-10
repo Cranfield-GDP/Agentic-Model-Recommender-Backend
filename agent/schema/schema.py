@@ -1,6 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import Any, List, Optional
 from langchain_core.output_parsers import PydanticOutputParser
 
 class MoreInfoResponse(BaseModel):
@@ -88,14 +88,15 @@ class GraphState(BaseModel):
     deployment_confirmation_agent_result: Optional[UserConfirmationReviewer] = None
     hugging_face_models: Optional[List[str]] = None
 
+
 class VariableStore(Enum):
-    IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION = False
-    DEPLOYMENT = None
-    NETWORK_SLICE = None
-    SUGGESTED_MODELS = []
-    SELECTED_MODEL = None
-    MODEL_CATEGORY = None
-    IS_DEPLOYMENT_CONFIRMED = False
+    IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION = "IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION"
+    DEPLOYMENT = "DEPLOYMENT"
+    NETWORK_SLICE = "NETWORK_SLICE"
+    SUGGESTED_MODELS = "SUGGESTED_MODELS"
+    SELECTED_MODEL = "SELECTED_MODEL"
+    MODEL_CATEGORY = "MODEL_CATEGORY"
+    IS_DEPLOYMENT_CONFIRMED = "IS_DEPLOYMENT_CONFIRMED"
 
 class Agents(Enum):
     RequirementAnalysisAgent = "REQUIREMENT_ANALYSIS_AGENT"

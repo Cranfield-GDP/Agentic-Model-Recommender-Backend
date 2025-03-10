@@ -15,7 +15,7 @@ requirement_analysis_agent_template = ChatPromptTemplate.from_messages([
                 - If the user's chat lacks sufficient details, set `isInfoEnoughToMakeDecision = false`, and leave `deployment` and `networkSlice` **empty**.
                 - If the chat provides enough information, set `isInfoEnoughToMakeDecision = true` and determine:
                   - `deployment`: `"Edge"` or `"Cloud"` based on the best-suited architecture.
-                  - `networkSlice`: A list containing one or more of `["eMBB", "uRLLC", "mMTC"]`.                            
+                  - `networkSlice`: A value containing only one of `["eMBB", "uRLLC", "mMTC"]`.                         
                 - Note: don't expect the user to know all the telecom terminologies.
 
                 ### Expected Output Format:

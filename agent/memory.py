@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from langgraph.store.memory import InMemoryStore
 
 from agent.schema.schema import GraphState, VariableStore
@@ -9,12 +10,22 @@ memory_store = InMemoryStore()
 chat_namespace = lambda user_id : (user_id, "chat")
 decision_variable_namespace = lambda user_id : (user_id,"decision_variable")
 
+default_saved_variables = {
+    VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name : False,
+    VariableStore.DEPLOYMENT.name : None,
+    VariableStore.NETWORK_SLICE.name : None,
+    VariableStore.SUGGESTED_MODELS.name : [],
+    VariableStore.SELECTED_MODEL.name : None,
+    VariableStore.MODEL_CATEGORY.name : None,
+    VariableStore.IS_DEPLOYMENT_CONFIRMED.name : False
+}
+
 def save_variable(key: VariableStore, value: str, user_id: str, memoryStore: InMemoryStore):
     "Save a variable to the namespace"
     namespace = decision_variable_namespace(user_id)
     messages = memory_store.search(namespace)
     if len(messages) == 0:
-        messages.append({i.name : i.value for i in VariableStore})
+        messages.append({k: v for k, v in default_saved_variables.items()})        
         variables = messages[0]
     else:
         variables = messages[0].value
@@ -26,7 +37,7 @@ def get_saved_variables(user_id: str, memortStore: InMemoryStore):
     namespace = decision_variable_namespace(user_id)
     messages = memory_store.search(namespace)
     if len(messages) == 0:
-        return {i.name : i.value for i in VariableStore}
+        return default_saved_variables
     return messages[0].value  
 
 def load_user_state(user_id: str, memory_store: dict) -> GraphState:
