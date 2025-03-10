@@ -57,7 +57,8 @@ cp .env.example .env
 ```
 
 Open .env and update the values with configurations, llm credentials, and other necessary details.
-Note: the backend will use only one llm based on the configuration [openai/gemini/localllm]
+
+Note: the application will use only one llm based on the configuration [openai/gemini/localllm]
 
 ## Running the Application
 
