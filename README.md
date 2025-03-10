@@ -73,18 +73,18 @@ API Redoc: `http://localhost:8000/redoc`
 1. Build the Docker Image
 
 ```bash
-docker build -t agentic-backend .
+docker pull udhay707/agentic-model-recommender-backend
 ```
 
 2. Run the Container with Your .env File
 
 ```bash
-docker run --env-file .env -p 8000:8000 agentic-backend
+docker run --env-file .env -p 8000:8000 udhay707/agentic-model-recommender-backend
 ```
 
 3. Running in Detached Mode
 
 ```bash
-docker run -d --env-file .env -p 8000:8000 agentic-backend
+docker run -d --env-file .env -p 8000:8000 agentic-model-recommender-backend
 ```
 
