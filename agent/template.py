@@ -9,8 +9,7 @@ requirement_analysis_agent_template = ChatPromptTemplate.from_messages([
                 Your task is to analyze the user's chat and determine:
                 1. Whether there is **enough information** to decide between **Edge** and **Cloud** deployment.
                 2. Whether there is **enough information** to select the appropriate **network slice** among **eMBB, uRLLC, and mMTC**.
-                3. Whether the input and output are defined, this would be helpful in understanding the latency and also in suggesting the appropriate model for the user
-
+                
                 ### Guidelines:
                 - If the user's chat lacks sufficient details, set `isInfoEnoughToMakeDecision = false`, and leave `deployment` and `networkSlice` **empty**.
                 - If the chat provides enough information, set `isInfoEnoughToMakeDecision = true` and determine:
@@ -29,13 +28,15 @@ requirement_clarification_agent_template = ChatPromptTemplate.from_messages([
     SystemMessagePromptTemplate.from_template("""You are a **telecommunication expert** responsible for gathering additional information from the user to determine:
         1. **Deployment Type**: Should the network be deployed on **Edge** or **Cloud**?
         2. **Network Slice Selection**: Should the network use **eMBB, uRLLC, or mMTC**?
-
+        3. **User requirement**: Is the requirement clearly to suggest an AI model (ie input, output, etc).
+                                              
         Since the user's input might be **unclear or incomplete**, your task is to **ask relevant clarification questions** to better understand their requirements.
 
         ### **Guidelines for Generating Questions**:
         - Ask **specific and concise** questions that will help determine:
           - **Latency & Reliability Needs** → For deciding between **Edge** and **Cloud**.
           - **Bandwidth & Connectivity Requirements** → For choosing between **eMBB, uRLLC, and mMTC**.
+          - **User Requirement** → For choosing the **AI model**.
         - Your response must be in **valid JSON format**.
         - Note: don't expect the user to know all the telecom terminologies.
 
@@ -68,10 +69,22 @@ confirmation_agent_template = ChatPromptTemplate.from_messages([
 ])
 
 hugging_face_model_search_agent_template = ChatPromptTemplate.from_messages([
-    SystemMessagePromptTemplate.from_template("""You are an **AI model expert** specializing in selecting the best category for the user requirement.
+    SystemMessagePromptTemplate.from_template("""You are an **AI model expert** specializing in selecting the best Hugging Face model category based on user requirements. Your task is to carefully analyze the provided user requirement and determine whether it is sufficiently well-defined to select an appropriate category from the list below.
+        ### Your Task:
+        1. **Analyze the User Requirement:**  
+        Evaluate the requirement and check if it clearly describes the intended objective, including a description of the expected input and the desired output.
+        - **If the information is sufficient:**  
+            - Select the best matching category from the available list.
+            - Provide a brief rationale for your choice.
+            - Set `is_enough_info_available_for_model_selection` to `true`.
+            - Set `clarification` to `null`.
+        - **If the information is insufficient:**  
+            - Do not guess a category.
+            - Set both `category` and `rationale` to `null`.
+            - Set `is_enough_info_available_for_model_selection` to `false`.
+            - In the `clarification` field, state that additional details are required—specifically, a clear description of both the expected input and the desired output for the task—without asking a direct question.
 
-        ### **Your Task:**
-        - Based on the user’s requirements, **suggest the most matching category for the user's requirement** from the below list of categories.
+        ### Available Categories:
         {categories}
         ### Expected Output Format:
         {format_instructions}

@@ -75,7 +75,10 @@ class HuggingFaceModel(BaseModel):
     """
     HuggingFace agent output template
     """
-    category: str
+    category: Optional[str] = Field(description="The most suitable Hugging Face category that best matches the user's requirement, or null if insufficient information")
+    rationale: Optional[str] = Field(description="A brief explanation of why the selected category is the best fit, or null if insufficient information")
+    is_enough_info_available_for_model_selection: bool = Field(description="True if the input is well defined for selecting a category, false otherwise.")
+    clarification: Optional[str] = Field(description="If additional information is needed, specify what further details you require from the user; otherwise, return `None`")
 
 hugging_face_agent_parser = PydanticOutputParser(pydantic_object=HuggingFaceModel)
 hugging_face_agent_format_instructions = hugging_face_agent_parser.get_format_instructions()
@@ -86,7 +89,7 @@ class GraphState(BaseModel):
     requirement_analyser_agent_result: Optional[MoreInfoResponse] = None
     requirement_clarification_agent_result: Optional[Questions] = None
     deployment_confirmation_agent_result: Optional[UserConfirmationReviewer] = None
-    hugging_face_models: Optional[List[str]] = None
+    hugging_face_models: Optional[List[str]] | Optional[str] = None
 
 
 class VariableStore(Enum):
@@ -97,6 +100,7 @@ class VariableStore(Enum):
     SELECTED_MODEL = "SELECTED_MODEL"
     MODEL_CATEGORY = "MODEL_CATEGORY"
     IS_DEPLOYMENT_CONFIRMED = "IS_DEPLOYMENT_CONFIRMED"
+    IS_REQUIREMENT_CLEAR = "IS_REQUIREMENT_CLEAR"
 
 class Agents(Enum):
     RequirementAnalysisAgent = "REQUIREMENT_ANALYSIS_AGENT"

@@ -1,12 +1,14 @@
+import asyncio
 from typing import List
+from fastapi import BackgroundTasks
 from langgraph.store.memory import InMemoryStore
 from huggingface_hub import list_models
-
-from agent.memory import (get_saved_variables, 
+import logging
+from agent.memory import (delete_user_conversation, get_saved_variables, 
                           memory_store, 
                           chat_namespace, 
                           save_variable)
-from agent.schema.schema import (GraphState, MoreInfoResponse, UserConfirmationReviewer, VariableStore, 
+from agent.schema.schema import (GraphState, HuggingFaceModel, MoreInfoResponse, UserConfirmationReviewer, VariableStore, 
                     requirement_analyser_agent_format_instructions, 
                     requirement_analysis_agent_parser, 
                     requirement_clarification_agent_parser, 
@@ -27,9 +29,11 @@ from agent.template import (requirement_analysis_agent_template,
                       user_confirmation_reviewer_template)
 
 from agent.hugging_face_tasks import get_huggingface_categories
+from utils.deployer import deploy_model_in_cloud
 
 
-
+log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 def get_llm_response(prompt, parser):
     """Formats prompt, calls LLM, and parses the structured output."""
@@ -42,7 +46,8 @@ def get_past_messages(memory_store:InMemoryStore, namespace: tuple) -> List[str]
     return [m.value for m in messages] 
 
 def requirement_analyis_agent_node(state: GraphState) -> GraphState:
-    if get_saved_variables(state.user_id, memory_store)[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:
+    saved_variables = get_saved_variables(state.user_id, memory_store)
+    if saved_variables[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:
         print("requirement is already confirmed")
         return state
     namespace = chat_namespace(state.user_id)
@@ -108,19 +113,24 @@ def hugging_face_model_search_agent_node(state: GraphState) -> GraphState:
 
     tasks = get_huggingface_categories()
 
-    result = get_llm_response(hugging_face_model_search_agent_template.format_messages(
+    result: HuggingFaceModel = get_llm_response(hugging_face_model_search_agent_template.format_messages(
             user_chat=state.user_chat,
             format_instructions=hugging_face_agent_format_instructions,
             history=past_messages,
             categories=tasks
         ), hugging_face_agent_parser)
-
+    
+    print(result)
     past_messages.append({"user": state.user_chat, Agents.HuggingFaceModelAgent.value: getAgentResponse(result)})
     memory_store.put(namespace, "latest", past_messages)
-    models = [model.id for model in list_models(task=result.category, sort="downloads", limit=5, direction=-1)]
-    state.hugging_face_models = models
-    save_variable(VariableStore.MODEL_CATEGORY,result.category, state.user_id, memory_store)
-    save_variable(VariableStore.SUGGESTED_MODELS, models, state.user_id, memory_store)
+    if result.is_enough_info_available_for_model_selection:
+        models = [model.id for model in list_models(task=result.category, sort="downloads", limit=5, direction=-1)]
+        state.hugging_face_models = models
+        save_variable(VariableStore.IS_REQUIREMENT_CLEAR, result.is_enough_info_available_for_model_selection, state.user_id, memory_store)
+        save_variable(VariableStore.MODEL_CATEGORY,result.category, state.user_id, memory_store)
+        save_variable(VariableStore.SUGGESTED_MODELS, models, state.user_id, memory_store)
+    else:
+        state.hugging_face_models = result.clarification
     return state
 
 
@@ -128,7 +138,6 @@ def user_confirmation_reviewer_node(state: GraphState) -> GraphState:
     """verifies if the user has confirmed the deployment and provide further confirmation to deploy or clarify or even update the user selection"""
     namespace = chat_namespace(state.user_id)
     past_messages = get_past_messages(memory_store, namespace)
-
     saved_variable = get_saved_variables(state.user_id, memory_store)
     result: UserConfirmationReviewer = get_llm_response(
         confirmation_agent_template.format_messages(
@@ -146,8 +155,12 @@ def user_confirmation_reviewer_node(state: GraphState) -> GraphState:
     state.deployment_confirmation_agent_result = result
     if result.isConfirmed:
         print("The user has confirmed the deployment: ", result)
-        #todo to trigger the deployment
-    return state 
+        asyncio.create_task(deploy_model_in_cloud(result.selected_model, 
+                              saved_variable[VariableStore.MODEL_CATEGORY.name],
+                              result.selected_deployment, result.selected_slice))
+        delete_user_conversation(state.user_id)
+        print("The variables and the chat_history for the user are deleted successfully")
+    return state
 
 def save_model(model: str, userId: str):
     save_variable(VariableStore.SELECTED_MODEL, model, userId, memory_store)

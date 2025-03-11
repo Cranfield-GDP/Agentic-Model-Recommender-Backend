@@ -1,5 +1,5 @@
 from langgraph.graph import StateGraph, END
-
+import logging
 
 from agent.nodes import (deployment_confirmation_agent_node, 
                          hugging_face_model_search_agent_node, 
@@ -14,14 +14,16 @@ from agent.schema.schema import Agents, GraphState, VariableStore
 from agent.memory import (get_saved_variables,
                     memory_store)
 
+log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 graph = StateGraph(GraphState)
 
 
+graph.add_node(Agents.HuggingFaceModelAgent.value, hugging_face_model_search_agent_node)
 graph.add_node(Agents.RequirementAnalysisAgent.value, requirement_analyis_agent_node)
 graph.add_node(Agents.RequirementClarificationAgent.value, requirement_clarification_agent_node)
 graph.add_node(Agents.DeploymentConfirmationAgent.value, deployment_confirmation_agent_node)
-graph.add_node(Agents.HuggingFaceModelAgent.value, hugging_face_model_search_agent_node)
 graph.add_node(Agents.UserConfirmationReviewer.value, user_confirmation_reviewer_node)
 
 def router(state: GraphState):
@@ -30,6 +32,7 @@ def router(state: GraphState):
         state.user_id,
         memortStore=memory_store
     )
+    log.info("The saved varibles are fetched for the user %s", saved_variables)
     if saved_variables[VariableStore.SELECTED_MODEL.name]:
         return Agents.UserConfirmationReviewer.value
     if saved_variables[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:

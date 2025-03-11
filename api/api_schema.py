@@ -4,7 +4,6 @@ from typing import Optional, List
 
 class UserInput(BaseModel):
     message: str
-    model: Optional[str] = None
     userId: str
 
 class Model(BaseModel):

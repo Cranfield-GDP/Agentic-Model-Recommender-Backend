@@ -17,7 +17,8 @@ default_saved_variables = {
     VariableStore.SUGGESTED_MODELS.name : [],
     VariableStore.SELECTED_MODEL.name : None,
     VariableStore.MODEL_CATEGORY.name : None,
-    VariableStore.IS_DEPLOYMENT_CONFIRMED.name : False
+    VariableStore.IS_DEPLOYMENT_CONFIRMED.name : False,
+    VariableStore.IS_REQUIREMENT_CLEAR : False
 }
 
 def save_variable(key: VariableStore, value: str, user_id: str, memoryStore: InMemoryStore):
@@ -40,12 +41,19 @@ def get_saved_variables(user_id: str, memortStore: InMemoryStore):
         return default_saved_variables
     return messages[0].value  
 
-def load_user_state(user_id: str, memory_store: dict) -> GraphState:
-    namespace = ("memories", user_id)
-    stored_state = memory_store.get(namespace, "user_state").value if memory_store.get(namespace, "user_state") else GraphState(user_id=user_id, user_chat="")
-    return stored_state
-
 def save_user_state(user_id: str, state: dict, memory_store: dict):
     """Save the updated state back to memory."""
     namespace = ("memories", user_id)
     memory_store.put(namespace, "user_state", state)
+
+def _delete_namespace(store: InMemoryStore, namespace: tuple):
+    items = store.search(namespace)
+    for item in items:
+        store.delete(namespace, item.key)
+    
+
+def delete_user_conversation(user_id: str):
+    namespaces = [chat_namespace(user_id), decision_variable_namespace(user_id)]
+    for namespace in namespaces:
+        _delete_namespace(memory_store, namespace)
+
