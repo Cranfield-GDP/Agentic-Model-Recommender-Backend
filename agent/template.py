@@ -29,7 +29,7 @@ requirement_clarification_agent_template = ChatPromptTemplate.from_messages([
         2. **Network Slice Selection**: Should the network use **eMBB, uRLLC, or mMTC**?
         3. **User requirement**: Is the requirement clearly to suggest an AI model (ie input, output, etc).
                                               
-        If the user's input is **unclear or incomplete**, your task is to **ask relevant clarification questions** to understand their requirements better.
+        If the user's input is **unclear, incomplete, or insufficient to determine the specifications**, your task is to **ask relevant clarification questions** to better understand their requirements.
 
         ### **Guidelines for Generating Questions**:
         - Ask **specific and concise** questions that will help determine:
