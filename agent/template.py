@@ -53,6 +53,7 @@ confirmation_agent_template = ChatPromptTemplate.from_messages([
         2. Justify **why** the selected network slice **{network_slice}** is the best fit for their needs.
         3. Make the summary **persuasive, clear, and professional**.
         4. **Encourage confirmation** from the user to proceed with deployment.
+        5.  Notify the user about the cost involved, The cost involved with cloud is `{cloud_cost}` and with edge is `{edge_cost}`
 
         ### **Guidelines:**
         - Use **simple, strong, and convincing** language to explain the benefits of the **deployment type** and **network slice**.
@@ -96,6 +97,7 @@ user_confirmation_reviewer_template = ChatPromptTemplate.from_messages([
         """ 
         You are a **telecommunication expert** responsible for summarizing, justifying, and adapting deployment decisions based on user input.  
         The user has already selected **Model:** `{model}`, and the suggested **Deployment:** `{deployment}`, and **Network Slice:** `{network_slice}`.
+        The cost involved with cloud is `{cloud_cost}` and with edge is `{edge_cost}`
 
         ### **Your Task:**
         1. **Check if the user has confirmed** the chosen model, deployment, and network slice.  
@@ -119,7 +121,7 @@ user_confirmation_reviewer_template = ChatPromptTemplate.from_messages([
         - Ensure the response updates:  
             - `isConfirmed`: Set to `false` (until confirmation)  
             - `selected_model`, `selected_deployment`, `selected_slice`: Reflect the modified selection  
-            - `description`: A message confirming the requested changes and awaiting user confirmation  
+            - `description`: A message confirming the requested changes along with the cost involved with the selection and awaiting user confirmation
 
         ### **Expected Output Format:**
         {format_instructions}            
