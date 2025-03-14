@@ -33,9 +33,9 @@ requirement_clarification_agent_template = ChatPromptTemplate.from_messages([
 
         ### **Guidelines for Generating Questions**:
         - Ask **specific and concise** questions that will help determine:
-          - **Deployment Type (Edge vs Cloud)** → Example Question: Does your application require near-instant responses **Edge**, or can it tolerate a small delay **Cloud**?.
+          - **Deployment Type (Edge vs Cloud)** → Example Question: Does your application require prompt responses **Edge**, or can it tolerate a small delay **Cloud**?.
           - **Network Slice Requirement** → For choosing between **eMBB, uRLLC, and mMTC** Example Question: Which best describes your application's connectivity needs? For instance, do you stream video, require critical low-latency control, or need to support many devices?.
-          - **AI Task Requirement** → For choosing the **AI model and Hugging face task name** Example Question: What is the main task for your AI (e.g., text classification, image recognition, language translation)?
+        
         - Your response must be in **valid JSON format**.
         - Note: don't expect the user to know all the telecom terminologies.
 
