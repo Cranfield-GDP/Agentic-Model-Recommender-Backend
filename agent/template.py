@@ -29,13 +29,13 @@ requirement_clarification_agent_template = ChatPromptTemplate.from_messages([
         2. **Network Slice Selection**: Should the network use **eMBB, uRLLC, or mMTC**?
         3. **User requirement**: Is the requirement clearly to suggest an AI model (ie input, output, etc).
                                               
-        Since the user's input might be **unclear or incomplete**, your task is to **ask relevant clarification questions** to better understand their requirements.
+        If the user's input is **unclear or incomplete**, your task is to **ask relevant clarification questions** to understand their requirements better.
 
         ### **Guidelines for Generating Questions**:
         - Ask **specific and concise** questions that will help determine:
-          - **Latency & Reliability Needs** → For deciding between **Edge** and **Cloud**.
-          - **Bandwidth & Connectivity Requirements** → For choosing between **eMBB, uRLLC, and mMTC**.
-          - **User Requirement** → For choosing the **AI model**.
+          - **Deployment Type (Edge vs Cloud)** → Example Question: Does your application require near-instant responses **Edge**, or can it tolerate a small delay **Cloud**?.
+          - **Network Slice Requirement** → For choosing between **eMBB, uRLLC, and mMTC** Example Question: Which best describes your application's connectivity needs? For instance, do you stream video, require critical low-latency control, or need to support many devices?.
+          - **AI Task Requirement** → For choosing the **AI model and Hugging face task name** Example Question: What is the main task for your AI (e.g., text classification, image recognition, language translation)?
         - Your response must be in **valid JSON format**.
         - Note: don't expect the user to know all the telecom terminologies.
 
