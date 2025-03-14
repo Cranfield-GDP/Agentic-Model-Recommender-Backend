@@ -33,7 +33,7 @@ def send_chat_request(user_id):
     }
 
     try:
-        response = httpx.post(CHAT_URL, json=payload)
+        response = httpx.post(CHAT_URL, json=payload, timeout=60)
         response.raise_for_status() 
         return response.json()
     except httpx.HTTPStatusError as e:
@@ -60,7 +60,7 @@ def validate_and_send_model(user_id, models):
                     "model": selected_model,  
                     "user_id": user_id        
                 }
-                response = httpx.post(MODEL_URL, json=payload)
+                response = httpx.post(MODEL_URL, json=payload, timeout=60)
                 print_json_response(response.json())
                 return
             else:
