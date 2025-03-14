@@ -1,6 +1,5 @@
 import asyncio
 from typing import List
-from fastapi import BackgroundTasks
 from langgraph.store.memory import InMemoryStore
 from huggingface_hub import list_models
 import logging
@@ -30,6 +29,10 @@ from agent.template import (requirement_analysis_agent_template,
 
 from agent.hugging_face_tasks import get_huggingface_categories
 from utils.deployer import deploy_model_in_cloud
+import os
+
+cloud_cost = os.getenv("COST_CLOUD", "3.99£/hr")
+edge_cost = os.getenv("COST_EDGE", "6.00£/hr")
 
 
 log = logging.getLogger(__name__)
@@ -96,6 +99,8 @@ def deployment_confirmation_agent_node(state: GraphState) -> GraphState:
             deployment=saved_variable[VariableStore.DEPLOYMENT.name],
             network_slice=saved_variable[VariableStore.NETWORK_SLICE.name],
             model= saved_variable[VariableStore.SELECTED_MODEL.name],
+            cloud_cost= cloud_cost,
+            edge_cost= edge_cost,
             format_instructions=deployment_confirmation_agent_format_instructions,
             history=past_messages
         ),
@@ -145,6 +150,8 @@ def user_confirmation_reviewer_node(state: GraphState) -> GraphState:
             model = saved_variable[VariableStore.SELECTED_MODEL.name],
             deployment=saved_variable[VariableStore.DEPLOYMENT.name],
             network_slice=saved_variable[VariableStore.NETWORK_SLICE.name],
+            cloud_cost= cloud_cost,
+            edge_cost= edge_cost,
             format_instructions=deployment_confirmation_agent_format_instructions,
             history=past_messages
         ),
