@@ -1,6 +1,6 @@
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
-
+#hello
 humanPreviousChat = HumanMessagePromptTemplate.from_template("Here is the previous conversation with the user: {history}")
 humanCurrentMessage =  HumanMessagePromptTemplate.from_template("Here is the user's message: {user_chat}")
 
