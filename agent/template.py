@@ -14,7 +14,7 @@ requirement_analysis_agent_template = ChatPromptTemplate.from_messages([
                 - If the chat provides enough information, set `isInfoEnoughToMakeDecision = true` and determine:
                   - `deployment`: `"Edge"` or `"Cloud"` based on the best-suited architecture.
                   - `networkSlice`: A value containing only one of `["eMBB", "uRLLC", "mMTC"]`.                         
-                - Note: don't expect the user to know all the telecom terminologies. Also note that superfluous/ needless questions should be avoided, as these will be penalised. Remember that you do not have to be 100% sure when making a selection.
+                - Note: don't expect the user to know all the telecom terminologies. Also note that superfluous/ needless questions should be avoided, as these will be penalised.
 
                 ### Expected Output Format:
                 {format_instructions}
@@ -27,7 +27,6 @@ requirement_clarification_agent_template = ChatPromptTemplate.from_messages([
     SystemMessagePromptTemplate.from_template("""You are a **telecommunication expert** responsible for gathering additional information from the user to determine:
         1. **Deployment Type**: Should the network be deployed on **Edge** or **Cloud**?
         2. **Network Slice Selection**: Should the network use **eMBB, uRLLC, or mMTC**?
-        3. **User requirement**: Is the requirement clearly to suggest an AI model (ie input, output, etc).
                                               
         If the user's input is **unclear, incomplete, or insufficient to determine the specifications**, your task is to **ask relevant clarification questions** to better understand their requirements.
 
