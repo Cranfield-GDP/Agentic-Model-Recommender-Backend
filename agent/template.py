@@ -1,42 +1,41 @@
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
-
 humanPreviousChat = HumanMessagePromptTemplate.from_template("Here is the previous conversation with the user: {history}")
 humanCurrentMessage =  HumanMessagePromptTemplate.from_template("Here is the user's message: {user_chat}")
 
 requirement_analysis_agent_template = ChatPromptTemplate.from_messages([
     SystemMessagePromptTemplate.from_template("""You are a highly skilled telecommunication expert specializing in network deployment decisions.
                 Your task is to analyze the user's chat and determine:
-                1. Whether there is **enough information** to decide between **Edge** and **Cloud** deployment.
+                1. Whether there is **enough information** to decide between **Edge** and **Cloud** deployment. Analyse the geographic location before choosing edge
                 2. Whether there is **enough information** to select the appropriate **network slice** among **eMBB, uRLLC, and mMTC**.
                 
                 ### Guidelines:
                 - If the user's chat lacks sufficient details, set `isInfoEnoughToMakeDecision = false`, and leave `deployment` and `networkSlice` **empty**.
                 - If the chat provides enough information, set `isInfoEnoughToMakeDecision = true` and determine:
                   - `deployment`: `"Edge"` or `"Cloud"` based on the best-suited architecture.
-                  - `networkSlice`: A value containing only one of `["eMBB", "uRLLC", "mMTC"]`.                         
-                - Note: don't expect the user to know all the telecom terminologies.
-
+                  - `networkSlice`: A value containing only one of `["eMBB", "uRLLC", "mMTC"]`. 
+                - Most users demand low latency, its your job to analyse which use cases really requires low latency before choosing edge over cloud                   
+                - Note: don't expect the user to know all the telecom terminologies. Also note that superfluous/ needless questions should be avoided, as these will be penalised.
+                
                 ### Expected Output Format:
                 {format_instructions}
             """),
     humanPreviousChat,
     humanCurrentMessage
 ])
-
+#
 requirement_clarification_agent_template = ChatPromptTemplate.from_messages([
     SystemMessagePromptTemplate.from_template("""You are a **telecommunication expert** responsible for gathering additional information from the user to determine:
         1. **Deployment Type**: Should the network be deployed on **Edge** or **Cloud**?
         2. **Network Slice Selection**: Should the network use **eMBB, uRLLC, or mMTC**?
-        3. **User requirement**: Is the requirement clearly to suggest an AI model (ie input, output, etc).
                                               
-        Since the user's input might be **unclear or incomplete**, your task is to **ask relevant clarification questions** to better understand their requirements.
+        If the user's input is **unclear, incomplete, or insufficient to determine the specifications**, your task is to **ask relevant clarification questions** to better understand their requirements.
 
         ### **Guidelines for Generating Questions**:
         - Ask **specific and concise** questions that will help determine:
-          - **Latency & Reliability Needs** → For deciding between **Edge** and **Cloud**.
-          - **Bandwidth & Connectivity Requirements** → For choosing between **eMBB, uRLLC, and mMTC**.
-          - **User Requirement** → For choosing the **AI model**.
+          - **Deployment Type (Edge vs Cloud)** → Example Question: Does your application require prompt responses **Edge**, or can it tolerate a small delay **Cloud**?.
+          - **Network Slice Requirement** → For choosing between **eMBB, uRLLC, and mMTC** Example Question: Which best describes your application's connectivity needs? For instance, do you stream video, require critical low-latency control, or need to support many devices?.
+        
         - Your response must be in **valid JSON format**.
         - Note: don't expect the user to know all the telecom terminologies.
 

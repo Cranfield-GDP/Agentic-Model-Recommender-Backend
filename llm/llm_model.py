@@ -13,7 +13,7 @@ class LLMModel:
             raise Exception("Model is not present as environmental variable, so not processing")
         if model.lower() == "openai" or model.lower() == "chatgpt":
             self.llm = ChatOpenAI(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 temperature=0.7,
                 max_tokens=None,
                 timeout=None,
