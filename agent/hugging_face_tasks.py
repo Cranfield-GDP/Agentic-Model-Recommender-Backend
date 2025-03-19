@@ -5,7 +5,7 @@ import requests
 CACHED_CATEGORIES = None
 
 HUGGINGFACE_KEY = os.getenv("HUGGINGFACE_KEY")
-HUGGINGFACE_ENDPOINT = os.getenv("HUGGINGFACE_ENDPOINT") 
+HUGGINGFACE_ENDPOINT = os.getenv("HUGGINGFACE_ENDPOINT", "https://huggingface.co/api") 
 
 def get_huggingface_categories():
     """
@@ -16,6 +16,7 @@ def get_huggingface_categories():
         return CACHED_CATEGORIES
 
     url = f"{HUGGINGFACE_ENDPOINT}/tasks"
+    print(url)
     headers = {"Authorization": f"Bearer {HUGGINGFACE_KEY}"} if HUGGINGFACE_KEY else {}
     response = requests.get(url, headers=headers)
     response.raise_for_status()

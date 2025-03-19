@@ -129,7 +129,7 @@ def hugging_face_model_search_agent_node(state: GraphState) -> GraphState:
     past_messages.append({"user": state.user_chat, Agents.HuggingFaceModelAgent.value: getAgentResponse(result)})
     memory_store.put(namespace, "latest", past_messages)
     if result.is_enough_info_available_for_model_selection:
-        models = [model.id for model in list_models(task=result.category, sort="downloads", limit=5, direction=-1)]
+        models = [{"model": model.id, "modelUrl": f"https://huggingface.co/{model.id}"} for model in list_models(task=result.category, sort="likes", limit=5, direction=-1)]
         state.hugging_face_models = models
         save_variable(VariableStore.IS_REQUIREMENT_CLEAR, result.is_enough_info_available_for_model_selection, state.user_id, memory_store)
         save_variable(VariableStore.MODEL_CATEGORY,result.category, state.user_id, memory_store)

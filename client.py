@@ -53,7 +53,7 @@ def validate_and_send_model(user_id, models):
             selection = int(get_user_input("\nSelect a model (1-5): "))
 
             if 1 <= selection <= len(models):
-                selected_model = models[selection - 1]
+                selected_model = models[selection - 1]['model']
                 print(f"Sending selected model: {selected_model}")
 
                 payload = {
