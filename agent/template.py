@@ -15,7 +15,6 @@ requirement_analysis_agent_template = ChatPromptTemplate.from_messages([
                   - `deployment`: `"Edge"` or `"Cloud"` based on the best-suited architecture.
                   - `networkSlice`: A value containing only one of `["eMBB", "uRLLC", "mMTC"]`. 
                 - Most users demand low latency, its your job to analyse which use cases really requires low latency before choosing edge over cloud                   
-                - Note: don't expect the user to know all the telecom terminologies. Also note that superfluous/ needless questions should be avoided, as these will be penalised.
                 
                 ### Expected Output Format:
                 {format_instructions}
@@ -23,7 +22,7 @@ requirement_analysis_agent_template = ChatPromptTemplate.from_messages([
     humanPreviousChat,
     humanCurrentMessage
 ])
-#
+
 requirement_clarification_agent_template = ChatPromptTemplate.from_messages([
     SystemMessagePromptTemplate.from_template("""You are a **telecommunication expert** responsible for gathering additional information from the user to determine:
         1. **Deployment Type**: Should the network be deployed on **Edge** or **Cloud**?
@@ -131,4 +130,32 @@ user_confirmation_reviewer_template = ChatPromptTemplate.from_messages([
         ),
         humanPreviousChat,
         humanCurrentMessage
+])
+
+latency_gathering_agent_template = ChatPromptTemplate.from_messages([
+    SystemMessagePromptTemplate.from_template(
+        """You are a telecommunications expert with deep knowledge of latency requirements and 5QI configurations.
+
+    Your task is as follows:
+    Go through the chat history and check if the user has been suggested with an appropriate latency for their requirement, if already suggested,
+        - Output that latency value provided by the user in the "latency" field.
+        - Leave the "suggestion" field empty.
+    else:
+        1. Analyze the user's input to determine if a clear latency value or range is provided (for example, "10ms" or "100-300ms").
+        2. Using the provided 5QI configuration (given as {qi_json}), determine if the provided latency value matches one of the expected 5QI categories.
+        3. If the user has clearly provided a latency value or range that matches an appropriate 5QI category:
+            - Output that exact latency value in the "latency" field.
+            - Leave the "suggestion" field empty.
+        4. If the user has not provided a clear latency value, or if the provided latency does not match any appropriate 5QI category:
+            - Set the "latency" field to null.
+            - In the "suggestion" field, explain why selecting an appropriate latency is important and how it should align with the 5QI parameters.
+
+    Your response must be in valid JSON format with the following structure:
+            {format_instructions}
+
+    Please analyze the user's current input and any previous context to generate your response.
+        """
+    ),
+    humanPreviousChat,
+    humanCurrentMessage
 ])

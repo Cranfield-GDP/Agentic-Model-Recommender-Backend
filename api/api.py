@@ -38,6 +38,8 @@ async def chat(user_message: UserInput):
             return {"message": final_state["hugging_face_models"]}
         elif "requirement_clarification_agent_result" in final_state:
             return final_state["requirement_clarification_agent_result"]
+        elif "latency_agent_result" in final_state and final_state["latency_agent_result"].latency is None:
+            return final_state["latency_agent_result"]
         return final_state
     except Exception as e:
         log.error(e)

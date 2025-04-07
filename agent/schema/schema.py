@@ -83,6 +83,13 @@ class HuggingFaceModel(BaseModel):
 hugging_face_agent_parser = PydanticOutputParser(pydantic_object=HuggingFaceModel)
 hugging_face_agent_format_instructions = hugging_face_agent_parser.get_format_instructions()
 
+class LatencyAgentModel(BaseModel):
+    latency: Optional[str] = Field(description="The user's provided latency value if valid, otherwise null")
+    suggestion: Optional[str] = Field(description="If latency is null, provide a recommendation explaining why a specific latency is important based on 5QI; otherwise, leave this empty")
+
+latency_agent_parser = PydanticOutputParser(pydantic_object=LatencyAgentModel)
+latency_agent_format_instruction = latency_agent_parser.get_format_instructions()
+
 class GraphState(BaseModel):
     user_id: str
     user_chat: str
@@ -90,6 +97,7 @@ class GraphState(BaseModel):
     requirement_clarification_agent_result: Optional[Questions] = None
     deployment_confirmation_agent_result: Optional[UserConfirmationReviewer] = None
     hugging_face_models: Optional[List[str]] | Optional[str] = None
+    latency_agent_result: Optional[LatencyAgentModel] = None
 
 
 class VariableStore(Enum):
@@ -101,6 +109,7 @@ class VariableStore(Enum):
     MODEL_CATEGORY = "MODEL_CATEGORY"
     IS_DEPLOYMENT_CONFIRMED = "IS_DEPLOYMENT_CONFIRMED"
     IS_REQUIREMENT_CLEAR = "IS_REQUIREMENT_CLEAR"
+    LATENCY = "LATENCY"
 
 class Agents(Enum):
     RequirementAnalysisAgent = "REQUIREMENT_ANALYSIS_AGENT"
@@ -109,3 +118,5 @@ class Agents(Enum):
     DeploymentConfirmationAgent = "DEPLOYMENT_CONFIRMATION_AGENT"
     DeployerAgent = "DEPLOYER_AGENT"
     UserConfirmationReviewer = "USER_CONFIRMATION_REVIEWER"
+    LatencyAnayserAgent = "LATENCY_ANALYSER_AGENT"
+    ClarificationSubgraph = "CLARIFICATION_SUBGRAPH"

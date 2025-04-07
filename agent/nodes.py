@@ -3,11 +3,12 @@ from typing import List
 from langgraph.store.memory import InMemoryStore
 from huggingface_hub import list_models
 import logging
+
 from agent.memory import (delete_user_conversation, get_saved_variables, 
                           memory_store, 
                           chat_namespace, 
                           save_variable)
-from agent.schema.schema import (GraphState, HuggingFaceModel, MoreInfoResponse, UserConfirmationReviewer, VariableStore, 
+from agent.schema.schema import (GraphState, HuggingFaceModel, LatencyAgentModel, MoreInfoResponse, UserConfirmationReviewer, VariableStore, 
                     requirement_analyser_agent_format_instructions, 
                     requirement_analysis_agent_parser, 
                     requirement_clarification_agent_parser, 
@@ -17,7 +18,9 @@ from agent.schema.schema import (GraphState, HuggingFaceModel, MoreInfoResponse,
                     getAgentResponse,
                     hugging_face_agent_format_instructions,
                     hugging_face_agent_parser,
-                    Agents)
+                    Agents,
+                    latency_agent_format_instruction,
+                    latency_agent_parser)
 
 
 from llm.llm_provider import llm
@@ -25,11 +28,13 @@ from agent.template import (requirement_analysis_agent_template,
                       requirement_clarification_agent_template, 
                       confirmation_agent_template,
                       hugging_face_model_search_agent_template,
-                      user_confirmation_reviewer_template)
+                      user_confirmation_reviewer_template,
+                      latency_gathering_agent_template)
 
 from agent.hugging_face_tasks import get_huggingface_categories
 from utils.deployer import deploy_model_in_cloud
 import os
+import json
 
 cloud_cost = os.getenv("COST_CLOUD", "3.99£/hr")
 edge_cost = os.getenv("COST_EDGE", "6.00£/hr")
@@ -37,6 +42,14 @@ edge_cost = os.getenv("COST_EDGE", "6.00£/hr")
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
+
+
+def get_five_qi():
+    with open("5QI.json", "r") as file:
+        data = json.load(file)
+        return json.dumps(data, indent=4)
+qi_json = get_five_qi()
 
 def get_llm_response(prompt, parser):
     """Formats prompt, calls LLM, and parses the structured output."""
@@ -48,8 +61,35 @@ def get_past_messages(memory_store:InMemoryStore, namespace: tuple) -> List[str]
     messages = memory_store.search(namespace)
     return [m.value for m in messages] 
 
+def latency_gathering_node(state: GraphState) -> GraphState:
+    saved_variables = get_saved_variables(state.user_id, memory_store)
+    if saved_variables[VariableStore.LATENCY.name]:
+        print("latency is already confirmed")
+        return state
+    namespace = chat_namespace(state.user_id)
+    past_messages = get_past_messages(memory_store, namespace)
+    result: LatencyAgentModel = get_llm_response(
+        latency_gathering_agent_template.format_messages(
+            user_chat=state.user_chat,
+            qi_json=qi_json,
+            format_instructions=latency_agent_format_instruction,
+            history=past_messages
+        ),
+        latency_agent_parser
+    )
+    past_messages.append({"user": state.user_chat, Agents.RequirementAnalysisAgent.value: getAgentResponse(result)})
+    memory_store.put(namespace, "latest", past_messages)
+    if result.latency:
+        save_variable(VariableStore.LATENCY, result.latency, state.user_id, memory_store)
+    state.latency_agent_result = result
+    return state
+    
+
 def requirement_analyis_agent_node(state: GraphState) -> GraphState:
     saved_variables = get_saved_variables(state.user_id, memory_store)
+    if saved_variables[VariableStore.LATENCY.name] is None:
+        print("latency is not selected yet")
+        return state
     if saved_variables[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:
         print("requirement is already confirmed")
         return state

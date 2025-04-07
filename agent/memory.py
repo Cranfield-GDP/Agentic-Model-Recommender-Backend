@@ -18,7 +18,8 @@ default_saved_variables = {
     VariableStore.SELECTED_MODEL.name : None,
     VariableStore.MODEL_CATEGORY.name : None,
     VariableStore.IS_DEPLOYMENT_CONFIRMED.name : False,
-    VariableStore.IS_REQUIREMENT_CLEAR : False
+    VariableStore.IS_REQUIREMENT_CLEAR.name : False,
+    VariableStore.LATENCY.name: None
 }
 
 def save_variable(key: VariableStore, value: str, user_id: str, memoryStore: InMemoryStore):

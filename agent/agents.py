@@ -3,13 +3,13 @@ import logging
 
 from agent.nodes import (deployment_confirmation_agent_node, 
                          hugging_face_model_search_agent_node, 
-                         requirement_analyis_agent_node, 
-                         requirement_clarification_agent_node, user_confirmation_reviewer_node,
+                         latency_gathering_node, 
+                        user_confirmation_reviewer_node,
                          )
 
 from agent.schema.schema import Agents, GraphState, VariableStore
 
-
+from agent.subgraph import clarification_subgraph
 
 from agent.memory import (get_saved_variables,
                     memory_store)
@@ -20,11 +20,8 @@ logging.basicConfig(level=logging.INFO)
 graph = StateGraph(GraphState)
 
 
-graph.add_node(Agents.HuggingFaceModelAgent.value, hugging_face_model_search_agent_node)
-graph.add_node(Agents.RequirementAnalysisAgent.value, requirement_analyis_agent_node)
-graph.add_node(Agents.RequirementClarificationAgent.value, requirement_clarification_agent_node)
-graph.add_node(Agents.DeploymentConfirmationAgent.value, deployment_confirmation_agent_node)
-graph.add_node(Agents.UserConfirmationReviewer.value, user_confirmation_reviewer_node)
+graph.add_node(Agents.ClarificationSubgraph.value, clarification_subgraph)
+graph.add_node(Agents.LatencyAnayserAgent.value, latency_gathering_node)
 
 def router(state: GraphState):
     """Routes between agents based on agent1 decision"""
@@ -33,18 +30,12 @@ def router(state: GraphState):
         memortStore=memory_store
     )
     log.info("The saved varibles are fetched for the user %s", saved_variables)
-    if saved_variables[VariableStore.SELECTED_MODEL.name]:
-        return Agents.UserConfirmationReviewer.value
-    if saved_variables[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:
-        return Agents.HuggingFaceModelAgent.value
-    if not saved_variables[VariableStore.IS_ENOUGH_INFO_AVAILABLE_TO_MAKE_DECISION.name]:
-        return Agents.RequirementClarificationAgent.value
-    return END
+    if saved_variables[VariableStore.LATENCY.name]:
+        return Agents.ClarificationSubgraph.value
+    return Agents.ClarificationSubgraph.value
         
 
-graph.set_entry_point(Agents.RequirementAnalysisAgent.value)
-graph.add_conditional_edges(Agents.RequirementAnalysisAgent.value, router, {Agents.RequirementClarificationAgent.value, 
-                                                                            Agents.DeploymentConfirmationAgent.value,
-                                                                            Agents.HuggingFaceModelAgent.value})
+graph.set_entry_point(Agents.LatencyAnayserAgent.value)
+graph.add_conditional_edges(Agents.LatencyAnayserAgent.value, router, {Agents.ClarificationSubgraph.value})
 
 app = graph.compile()

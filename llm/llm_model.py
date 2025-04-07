@@ -14,7 +14,7 @@ class LLMModel:
         if model.lower() == "openai" or model.lower() == "chatgpt":
             self.llm = ChatOpenAI(
                 model="gpt-4o",
-                temperature=0.7,
+                temperature=0.0,
                 max_tokens=None,
                 timeout=None,
                 max_retries=2,
@@ -22,7 +22,7 @@ class LLMModel:
         elif model.lower() == "gemini":
             self.llm = ChatGoogleGenerativeAI(
                 model="gemini-2.0-flash",
-                temperature=0.7,
+                temperature=0.0,
                 max_tokens=None,
                 timeout=None,
                 max_retries=2,

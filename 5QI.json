@@ -1,0 +1,573 @@
+[ 
+
+    { 
+
+        "5QI Value": "1", 
+
+        "Resource Type": "GBR\n                            (NOTE 1)", 
+
+        "Default Priority Level": "20", 
+
+        "Packet Delay Budget": "100 ms \n                            (NOTE 11,\n                             NOTE 12)", 
+
+        "Packet Error Rate": "10-2", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "2000 ms", 
+
+        "Example Services": "Conversational Voice" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "2", 
+
+        "Resource Type": "40", 
+
+        "Default Priority Level": "150 ms \n                            (NOTE 11, \n                            NOTE 13)", 
+
+        "Packet Delay Budget": "10-3", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Conversational Video (Live Streaming)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "3", 
+
+        "Resource Type": "30", 
+
+        "Default Priority Level": "50 ms \n                            (NOTE 11, \n                            NOTE 13)", 
+
+        "Packet Delay Budget": "10-3", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Real Time Gaming, V2X messages (see TS 23.287). Electricity distribution  medium voltage, Process automation monitoring" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "4", 
+
+        "Resource Type": "50", 
+
+        "Default Priority Level": "300 ms \n                            (NOTE 11, \n                            NOTE 13)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Non-Conversational Video (Buffered Streaming)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "65 \n                            (NOTE 9,\n                            NOTE 12)", 
+
+        "Resource Type": "7", 
+
+        "Default Priority Level": "75 ms \n                            (NOTE 7, \n                            NOTE 8)", 
+
+        "Packet Delay Budget": "10-2", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Mission Critical user plane Push To Talk voice (e.g., MCPTT)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "66 \n                            (NOTE 12)", 
+
+        "Resource Type": "20", 
+
+        "Default Priority Level": "100 ms \n                            (NOTE 10, \n                            NOTE 13)", 
+
+        "Packet Delay Budget": "10-2", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Non-Mission-Critical user plane Push To Talk voice" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "67 \n                            (NOTE 12)", 
+
+        "Resource Type": "15", 
+
+        "Default Priority Level": "100 ms \n                            (NOTE 10, \n                            NOTE 13)", 
+
+        "Packet Delay Budget": "10-3", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Mission Critical Video user plane" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "75 \n                            (NOTE 14)", 
+
+        "Resource Type": "N/A", 
+
+        "Default Priority Level": "N/A", 
+
+        "Packet Delay Budget": "N/A", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "N/A" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "71", 
+
+        "Resource Type": "56", 
+
+        "Default Priority Level": "150 ms \n                            (NOTE 11, \n                            NOTE 13, \n                            NOTE 15)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "\"Live\" Uplink Streaming (e.g. TS 26.238)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "72", 
+
+        "Resource Type": "56", 
+
+        "Default Priority Level": "300 ms \n                            (NOTE 11, \n                            NOTE 13, \n                            NOTE 15)", 
+
+        "Packet Delay Budget": "10-4", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "\"Live\" Uplink Streaming (e.g. TS 26.238)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "73", 
+
+        "Resource Type": "56", 
+
+        "Default Priority Level": "300 ms \n                            (NOTE 11, \n                            NOTE 13, \n                            NOTE 15)", 
+
+        "Packet Delay Budget": "10-8", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "\"Live\" Uplink Streaming (e.g. TS 26.238)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "74", 
+
+        "Resource Type": "56", 
+
+        "Default Priority Level": "500 ms \n                            (NOTE 11, \n                            NOTE 15)", 
+
+        "Packet Delay Budget": "10-8", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "\"Live\" Uplink Streaming (e.g. TS 26.238)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "76", 
+
+        "Resource Type": "56", 
+
+        "Default Priority Level": "500 ms \n                            (NOTE 11, \n                            NOTE 13, \n                            NOTE 15)", 
+
+        "Packet Delay Budget": "10-4", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "\"Live\" Uplink Streaming (e.g. TS 26.238)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "5", 
+
+        "Resource Type": "non-GBR\n                            (NOTE 1)", 
+
+        "Default Priority Level": "10", 
+
+        "Packet Delay Budget": "100 ms \n                            (NOTE 10, \n                            NOTE 13)", 
+
+        "Packet Error Rate": "10-6", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "N/A", 
+
+        "Example Services": "IMS Signalling" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "6 \n                            (NOTE 1)", 
+
+        "Resource Type": "60", 
+
+        "Default Priority Level": "300 ms \n                            (NOTE 10, \n                            NOTE 13)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "Video (Buffered Streaming) TCP-based (e.g., www, e-mail, chat, ftp, p2p file sharing, progressive video, etc.)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "7", 
+
+        "Resource Type": "70", 
+
+        "Default Priority Level": "100 ms \n                            (NOTE 10, \n                            NOTE 13)", 
+
+        "Packet Delay Budget": "10-3", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "Voice, Video (Live Streaming) Interactive Gaming" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "8", 
+
+        "Resource Type": "80", 
+
+        "Default Priority Level": "300 ms \n                            (NOTE 13)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "Video (Buffered Streaming) TCP-based (e.g., www, e-mail, chat, ftp, p2p file sharing, progressive video, etc.)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "9", 
+
+        "Resource Type": "90", 
+
+        "Default Priority Level": "300 ms \n                            (NOTE 13)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "Video (Buffered Streaming) TCP-based (e.g., www, e-mail, chat, ftp, p2p file sharing, progressive video, etc.)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "69 \n                            (NOTE 9,\n                             NOTE 12)", 
+
+        "Resource Type": "5", 
+
+        "Default Priority Level": "60 ms \n                            (NOTE 7, \n                            NOTE 8)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "Mission Critical delay sensitive signalling (e.g., MC-PTT signalling)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "70 \n                            (NOTE 12)", 
+
+        "Resource Type": "55", 
+
+        "Default Priority Level": "200 ms \n                            (NOTE 7, \n                            NOTE 10)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "Mission Critical Data (e.g. example services are the same as 5QI 6/8/9)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "79", 
+
+        "Resource Type": "65", 
+
+        "Default Priority Level": "50 ms (NOTE 10, NOTE 13)", 
+
+        "Packet Delay Budget": "10-2", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "V2X messages (see TS 23.287)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "80", 
+
+        "Resource Type": "68", 
+
+        "Default Priority Level": "10 ms \n                            (NOTE 5, \n                            NOTE 10)", 
+
+        "Packet Delay Budget": "10-6", 
+
+        "Packet Error Rate": "N/A", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "N/A", 
+
+        "Default Averaging Window": "Low Latency eMBB applications Augmented Reality" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "82", 
+
+        "Resource Type": "Delay critical\n                            GBR", 
+
+        "Default Priority Level": "19", 
+
+        "Packet Delay Budget": "10 ms \n                            (NOTE 4)", 
+
+        "Packet Error Rate": "10-4", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "255 bytes", 
+
+        "Default Averaging Window": "2000 ms", 
+
+        "Example Services": "Discrete Automation (see TS 22.261)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "83", 
+
+        "Resource Type": "22", 
+
+        "Default Priority Level": "10 ms \n                            (NOTE 4)", 
+
+        "Packet Delay Budget": "10-4", 
+
+        "Packet Error Rate": "1354 bytes \n                            (NOTE 3)", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Discrete Automation (see TS 22.261); V2X messages (UE - RSU Platooning, Advanced Driving: Cooperative Lane Change with low LoA. See TS 22.185)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "84", 
+
+        "Resource Type": "24", 
+
+        "Default Priority Level": "30 ms \n                            (NOTE 6)", 
+
+        "Packet Delay Budget": "10-5", 
+
+        "Packet Error Rate": "1354 bytes \n                            (NOTE 3)", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Intelligent transport systems (see TS 22.261)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "85", 
+
+        "Resource Type": "21", 
+
+        "Default Priority Level": "5 ms \n                            (NOTE 5)", 
+
+        "Packet Delay Budget": "10-5", 
+
+        "Packet Error Rate": "255 bytes", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Electricity Distribution-high voltage (see TS 22.261); V2X messages (Remote Driving. See TS 22.186, NOTE 18, see TS 22.261)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "86", 
+
+        "Resource Type": "18", 
+
+        "Default Priority Level": "5 ms \n                            (NOTE 5)", 
+
+        "Packet Delay Budget": "10-4", 
+
+        "Packet Error Rate": "1354 bytes", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "V2X messages (Advanced Driving: Collision Avoidance, Platooning with high LoA. See TS 22.186, TS 23.287)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "87", 
+
+        "Resource Type": "25", 
+
+        "Default Priority Level": "5 ms \n                            (NOTE 4)", 
+
+        "Packet Delay Budget": "10-3", 
+
+        "Packet Error Rate": "500 bytes", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Interactive Service - Motion tracking data, (see TS 22.261)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "88", 
+
+        "Resource Type": "25", 
+
+        "Default Priority Level": "10 ms \n                            (NOTE 4)", 
+
+        "Packet Delay Budget": "10-3", 
+
+        "Packet Error Rate": "1125 bytes", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Interactive Service - Motion tracking data, (see TS 22.261)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "89", 
+
+        "Resource Type": "25", 
+
+        "Default Priority Level": "15 ms \n                            (NOTE 4)", 
+
+        "Packet Delay Budget": "10-4", 
+
+        "Packet Error Rate": "17000 bytes", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Visual content for cloud/edge/split rendering (see TS 22.261)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "90", 
+
+        "Resource Type": "25", 
+
+        "Default Priority Level": "20 ms \n                            (NOTE 4)", 
+
+        "Packet Delay Budget": "10-4", 
+
+        "Packet Error Rate": "63000 bytes", 
+
+        "Default Maximum Data Burst Volume (NOTE 2)": "2000 ms", 
+
+        "Default Averaging Window": "Visual content for cloud/edge/split rendering (see TS 22.261)" 
+
+    }, 
+
+    { 
+
+        "5QI Value": "NOTE 1: A packet which is delayed more than PDB is not counted as lost, thus not included in the PER.\n                            NOTE 2: It is required that default MDBV is supported by a PLMN supporting the related 5QIs.\n                            NOTE 3: The Maximum Transfer Unit (MTU) size considerations in clause 9.3 and Annex C of TS 23.060 [56] are also\n                            applicable. IP fragmentation may have impacts to CN PDB, and details are provided in clause 5.6.10.\n                            NOTE 4: A static value for the CN PDB of 1 ms for the delay between a UPF terminating N6 and a 5G-AN should be\n                            subtracted from a given PDB to derive the packet delay budget that applies to the radio interface. When a\n                            dynamic CN PDB is used, see clause 5.7.3.4.\n                            NOTE 5: A static value for the CN PDB of 2 ms for the delay between a UPF terminating N6 and a 5G-AN should be\n                            subtracted from a given PDB to derive the packet delay budget that applies to the radio interface. When a\n                            dynamic CN PDB is used, see clause 5.7.3.4.\n                            NOTE 6: A static value for the CN PDB of 5 ms for the delay between a UPF terminating N6 and a 5G-AN should be\n                            subtracted from a given PDB to derive the packet delay budget that applies to the radio interface. When a\n                            dynamic CN PDB is used, see clause 5.7.3.4.\n                            NOTE 7: For Mission Critical services, it may be assumed that the UPF terminating N6 is located \"close\" to the 5G_AN\n                            (roughly 10 ms) and is not normally used in a long distance, home routed roaming situation. Hence a static\n                            value for the CN PDB of 10 ms for the delay between a UPF terminating N6 and a 5G_AN should be\n                            subtracted from this PDB to derive the packet delay budget that applies to the radio interface.\n                            NOTE 8: In both RRC Idle and RRC Connected mode, the PDB requirement for these 5QIs can be relaxed (but not to\n                            a value greater than 320 ms) for the first packet(s) in a downlink data or signalling burst in order to permit\n                            reasonable battery saving (DRX) techniques.\n                            NOTE 9: It is expected that 5QI-65 and 5QI-69 are used together to provide Mission Critical Push to Talk service (e.g.\n                            5QI-5 is not used for signalling). It is expected that the amount of traffic per UE will be similar or less\n                            compared to the IMS signalling.\n                            NOTE 10: In both RRC Idle and RRC Connected mode, the PDB requirement for these 5QIs can be relaxed for the first\n                            packet(s) in a downlink data or signalling burst in order to permit battery saving (DRX) techniques.\n                            NOTE 11: In RRC Idle mode, the PDB requirement for these 5QIs can be relaxed for the first packet(s) in a downlink\n                            data or signalling burst in order to permit battery saving (DRX) techniques.\n                            NOTE 12: This 5QI value can only be assigned upon request from the network side. The UE and any application\n                            running on the UE is not allowed to request this 5QI value.\n                            NOTE 13: A static value for the CN PDB of 20 ms for the delay between a UPF terminating N6 and a 5G-AN should be\n                            subtracted from a given PDB to derive the packet delay budget that applies to the radio interface.\n                            NOTE 14: This 5QI is not supported in this Release of the specification as it is only used for transmission of V2X\n                            messages over MBMS bearers as defined in TS 23.285 [72] but the value is reserved for future use.\n                            NOTE 15: For \"live\" uplink streaming (see TS 26.238 [76]), guidelines for PDB values of the different 5QIs correspond to\n                            the latency configurations defined in TR 26.939 [77]. In order to support higher latency reliable streaming\n                            services (above 500ms PDB), if different PDB and PER combinations are needed these configurations will\n                            have to use non-standardised 5QIs.\n                            NOTE 16: These services are expected to need much larger MDBV values to be signalled to the RAN. Support for such\n                            larger MDBV values with low latency and high reliability is likely to require a suitable RAN configuration, for\n                            which, the simulation scenarios in TR 38.824 [112] may contain some guidance.\n                            NOTE 17: The worst case one way propagation delay for GEO satellite is expected to be ~270ms, ,~ 21 ms for LEO at\n                            1200km, and 13 ms for LEO at 600km. The UL scheduling delay that needs to be added is also typically two\n                            way propagation delay e.g. ~540ms for GEO, ~42ms for LEO at 1200km, and ~26 ms for LEO at 600km.\n                            Based on that, the 5G-AN Packet delay budget is not applicable for 5QIs that require 5G-AN PDB lower than\n                            the sum of these values when the specific types of satellite access are used (see TS 38.300 [27]). 5QI-10 can\n                            accommodate the worst case PDB for GEO satellite type." 
+
+    } 
+
+]
