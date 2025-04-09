@@ -138,7 +138,7 @@ latency_gathering_agent_template = ChatPromptTemplate.from_messages([
 
     Your task is as follows:
     Go through the chat history and check if the user has been suggested with an appropriate latency for their requirement, if already suggested,
-        - Output that latency value provided by the user in the "latency" field.
+        - Check if the user has acknowledged a specific suggestion or selected their own even after suggestion. If so, extract the latency value provided by the user and output it in a field named "latency".
         - Leave the "suggestion" field empty.
     else:
         1. Analyze the user's input to determine if a clear latency value or range is provided (for example, "10ms" or "100-300ms").

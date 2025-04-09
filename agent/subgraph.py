@@ -9,10 +9,10 @@ subgraph = StateGraph(GraphState)
 subgraph.add_node(Agents.HuggingFaceModelAgent.value, hugging_face_model_search_agent_node)
 subgraph.add_node(Agents.DeploymentConfirmationAgent.value, deployment_confirmation_agent_node)
 subgraph.add_node(Agents.UserConfirmationReviewer.value, user_confirmation_reviewer_node)
-subgraph.add_node(Agents.RequirementAnalysisAgent.name, requirement_analyis_agent_node)
-subgraph.add_node(Agents.RequirementClarificationAgent.name,  requirement_clarification_agent_node)
+subgraph.add_node(Agents.RequirementAnalysisAgent.value, requirement_analyis_agent_node)
+subgraph.add_node(Agents.RequirementClarificationAgent.value,  requirement_clarification_agent_node)
 
-subgraph.set_entry_point(Agents.RequirementAnalysisAgent.name)
+subgraph.set_entry_point(Agents.RequirementAnalysisAgent.value)
 
 def sub_router(state: GraphState):
     saved_variables = get_saved_variables(
@@ -28,10 +28,9 @@ def sub_router(state: GraphState):
     return END
     
 
-subgraph.add_conditional_edges(Agents.RequirementAnalysisAgent.name, sub_router, {
-    Agents.RequirementClarificationAgent.name,
+subgraph.add_conditional_edges(Agents.RequirementAnalysisAgent.value, sub_router, {
+    Agents.RequirementClarificationAgent.value,
     
 })
-subgraph.set_finish_point("RequirementAnalysisAgent")
 
 clarification_subgraph = subgraph.compile()
